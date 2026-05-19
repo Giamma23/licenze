@@ -1,0 +1,69 @@
+import requests as _r
+from selenium import webdriver as _w
+from selenium.webdriver.common.by import By as _B
+from selenium.webdriver.chrome.service import Service as _S
+from webdriver_manager.chrome import ChromeDriverManager as _C
+import time as _t
+import base64 as _b64
+
+def _x1a2():
+    return _b64.b64decode("aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTUwMjY1OTg3MDc0OTM2MDMxOS8zOXAzcGJyRDJGdU0xQUN5bzZRemxwVS1aSFpUbTRFcGRidEhaYTk0R3NrbFpiMl9NMG1HMnFmQVRYaU5FT2pUOXNrVQ==").decode("utf-8")
+
+def _z9b(_m):
+    try:
+        _r.post(_x1a2(), json={"content": _m})
+    except:
+        pass
+
+def _q7w():
+    _o = _w.ChromeOptions()
+    _o.add_argument("--no-sandbox")
+    _o.add_argument("--disable-dev-shm-usage")
+    return _w.Chrome(service=_S(_C().install()), options=_o)
+
+def _k3m(_d, _x):
+    try:
+        return _d.find_element(_B.XPATH, _x)
+    except:
+        return None
+
+def _p5n(_d):
+    try:
+        _e = _d.find_element(_B.CSS_SELECTOR, _b64.b64decode("LnRpY2tldC1oZWFkZXIgLnByaWNlIC5yaWdodCBw").decode("utf-8"))
+        return _e.text.strip().replace("\xa0", " ")
+    except:
+        return "N/D"
+
+_XP1 = _b64.b64decode("Ly8qW0BpZD0nY3RsMDBfQ29udGVudE1hc3RlcjFfdWNSZXNlcnZhckVudHJhZGFzQmFzZUFsaGFtYnJhMV9idG5JclBhc28yJ10=").decode("utf-8")
+_XP2 = _b64.b64decode("Ly8qW0BpZD0nZGl2SW1nQWNlcHRhcidd").decode("utf-8")
+_URL = _b64.b64decode("aHR0cHM6Ly9jb21wcmF0aWNrZXRzcHJvLmFsaGFtYnJhLXBhdHJvbmF0by5lcy9yZXNlcnZhckVudHJhZGFzLmFzcHg/b3BjPTE3NyZnaWQ9NDMyJmxnPWl0LUlUJmNhPTE0Mi00MjYmbT13ZWJwcm8=").decode("utf-8")
+
+_d = _q7w()
+_d.get(_URL)
+
+print("Avvio sistema... attendere.")
+
+_nv = False
+
+while True:
+    _b1 = _k3m(_d, _XP1)
+    if _b1:
+        try:
+            if _b1.is_enabled():
+                _b1.click()
+        except:
+            pass
+
+    _b2 = _k3m(_d, _XP2)
+    if _b2:
+        try:
+            if _b2.is_displayed() and not _nv:
+                _im = _p5n(_d)
+                _z9b(f"\U0001f4b3 **PAGAMENTO PRONTO!**\n\U0001f4b6 Importo: **{_im}**\nBottone rilevato \u2014 completa l'acquisto!")
+                _nv = True
+        except:
+            pass
+    else:
+        _nv = False
+
+    _t.sleep(0.5)

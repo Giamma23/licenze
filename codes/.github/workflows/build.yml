@@ -1,0 +1,42 @@
+﻿name: Build AlgoPoldo
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pyinstaller selenium webdriver-manager requests
+      - name: Build exe
+        run: python -m PyInstaller --onefile --name "AlgoPoldo" AlgoPoldo.py
+      - name: Upload exe
+        uses: actions/upload-artifact@v3
+        with:
+          name: AlgoPoldo-Windows
+          path: dist/AlgoPoldo.exe
+
+  build-mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install pyinstaller selenium webdriver-manager requests
+      - name: Build app
+        run: python -m PyInstaller --onefile --name "AlgoPoldo" AlgoPoldo.py
+      - name: Upload app
+        uses: actions/upload-artifact@v3
+        with:
+          name: AlgoPoldo-Mac
+          path: dist/AlgoPoldo
